@@ -25,21 +25,41 @@ async function resizeImage(key) {
     };
 
     const imageObject = await cos.getObject(params).promise();
-
-    const resizedImage = await sharp(imageObject.Body)
+    const imageBuffer = imageObject.Body;
+    
+    // Usar sharp para redimensionar y mantener el formato de la imagen
+    const resizedImageBuffer = await sharp(imageBuffer)
         .resize(resizeOptions.width, resizeOptions.height)
         .toBuffer();
+
+    // Usar sharp para obtener información sobre el formato de la imagen
+    const format = await sharp(resizedImageBuffer).metadata().then(metadata => metadata.format);
+    
+    // Determinar el ContentType basado en el formato de la imagen
+    let contentType = 'image/jpeg'; // Valor por defecto
+    switch (format) {
+        case 'png':
+            contentType = 'image/png';
+            break;
+        case 'jpeg':
+            contentType = 'image/jpeg';
+            break;
+        case 'webp':
+            contentType = 'image/webp';
+            break;
+        // Añade más casos según sea necesario
+    }
 
     const targetParams = {
         Bucket: 'target',
         Key: `resized-${key}`,
-        Body: resizedImage,
-        ContentType: 'image/jpeg' // Ajustar según sea necesario
+        Body: resizedImageBuffer,
+        ContentType: contentType
     };
 
     await cos.putObject(targetParams).promise();
 
-    console.log(`Imagen redimensionada subida a: resized-${key}`);
+    console.log(`Imagen redimensionada subida a: resized-${key} con formato ${format}`);
 }
 
 // Función para obtener una lista de objetos en el bucket 'origin'
