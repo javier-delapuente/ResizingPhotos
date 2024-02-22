@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ibm-cos-sdk": "^1.13.3",
+    "sharp": "^0.33.2"
+  }
+}
