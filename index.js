@@ -4,8 +4,8 @@ const sharp = require('sharp');
 // Configuración de las credenciales de IBM Cloud Object Storage
 const cosConfig = {
     endpoint: 'https://s3.eu-es.cloud-object-storage.appdomain.cloud',
-    apiKeyId: '8aGVQnTOUkjmpbmveeT-dRkB6Sf_B-9GK-Lm0WHE5ON1',
-    serviceInstanceId: 'crn:v1:bluemix:public:cloud-object-storage:global:a/3bf43b3bc1fbc3f14e35ed30d899cf32:dd625d03-aacb-400e-a84f-82a0eced5848::'
+    apiKeyId: 'API_KEY',
+    serviceInstanceId: 'CRN_INSTANCE_ID'
 };
 
 // Crear una instancia de IBM Cloud Object Storage
